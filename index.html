@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#060a06">
+    <link rel="manifest" href="manifest.json">
+    <title>GGO Finanzas - Tactical System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="ggo-scanlines"></div>
+
+    <header class="ggo-header">
+        <div class="ggo-terminal-info">
+            <span class="ggo-blink-dot"></span>
+            <small>SYS_LOG: <span class="txt-ggo-green">ONLINE</span></small>
+        </div>
+        <div class="ggo-title">GGO // SYSTEM_FUNDS</div>
+        <div id="date-now" class="ggo-date"></div>
+    </header>
+
+    <nav class="ggo-nav">
+        <button class="ggo-tab-btn active" onclick="openTab('finanzas')">
+            <i class="fas fa-crosshairs"></i><span>AMMO & FUNDS</span>
+        </button>
+        <button class="ggo-tab-btn" onclick="openTab('conversor')">
+            <i class="fas fa-calculator"></i><span>EXCHANGE_GRID</span>
+        </button>
+    </nav>
+
+    <main class="container">
+        <div id="tab-finanzas" class="tab-content active">
+            
+            <div class="ggo-hud-display">
+                <div class="ggo-radar-circle">
+                    <div class="ggo-hud-internal">
+                        <small class="ggo-tag">CURRENT CREDIT (BS)</small>
+                        <h1 id="displayBS">0,00 Bs.</h1>
+                        <div class="ggo-hud-line"></div>
+                        <span id="displayUSD">$ 0,00</span>
+                    </div>
+                </div>
+            </div>
+
+            <section class="ggo-panel">
+                <span class="ggo-panel-title"><i class="fas fa-terminal"></i> MARKET CONTEXT</span>
+                <div class="ggo-input-wrapper">
+                    <span class="ggo-input-icon">BCV_RATE:</span>
+                    <input type="number" id="tasaBCV" value="45.50" step="0.01">
+                    <span class="ggo-input-suffix">VES</span>
+                </div>
+            </section>
+
+            <div class="ggo-panel">
+                <span class="ggo-panel-title"><i class="fas fa-edit"></i> TRANSACTION_LOG_INPUT</span>
+                
+                <div class="ggo-input-wrapper" style="margin-bottom: 12px;">
+                    <span class="ggo-input-icon"><i class="fas fa-tag"></i></span>
+                    <input type="text" id="concepto" placeholder="ITEM DESCRIPTION (E.G. AMMO, REPAIR)">
+                </div>
+
+                <div class="row">
+                    <div class="ggo-input-wrapper" style="flex: 2; margin-bottom: 0;">
+                        <span class="ggo-input-icon"><i class="fas fa-coins"></i></span>
+                        <input type="number" id="montoInput" placeholder="VALUE">
+                    </div>
+                    <div class="ggo-input-wrapper" style="flex: 1; margin-bottom: 0;">
+                        <select id="monedaInput">
+                            <option value="USD">USD ($)</option>
+                            <option value="BS">VES (Bs)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row-buttons" style="margin-top: 15px;">
+                    <button onclick="registrarMovimiento('ingreso')" class="ggo-btn btn-ggo-add">
+                        EXECUTE_DEPOSIT
+                    </button>
+                    <button onclick="registrarMovimiento('retiro')" class="ggo-btn btn-ggo-withdraw">
+                        EXECUTE_WITHDRAW
+                    </button>
+                </div>
+            </div>
+
+            <section class="ggo-panel">
+                <div class="ggo-history-header">
+                    <span class="ggo-panel-title"><i class="fas fa-database"></i> SECURE_HISTORY_DATA</span>
+                    <button onclick="limpiarHistorial()" class="ggo-clear-btn">WIPE_DATA</button>
+                </div>
+                <div id="listaHistorial"></div>
+            </section>
+        </div>
+
+        <div id="tab-conversor" class="tab-content">
+            <div class="ggo-panel">
+                <span class="ggo-panel-title"><i class="fas fa-project-diagram"></i> CONVERSION MATRIX</span>
+                <p class="ggo-meta-text">> COMPUTING CONVERSIONS BASED ON SYSTEM BCV RATIO.</p>
+                
+                <label class="ggo-field-label">INPUT_VES (BOLÍVARES):</label>
+                <div class="ggo-input-wrapper" style="margin-bottom: 15px;">
+                    <input type="number" id="convBS" placeholder="0.00" oninput="convertirDivisa('BS')">
+                </div>
+                
+                <div class="ggo-matrix-sep"><i class="fas fa-angle-double-down"></i></div>
+                
+                <label class="ggo-field-label">INPUT_USD (DÓLARES):</label>
+                <div class="ggo-input-wrapper" style="margin-bottom: 15px;">
+                    <input type="number" id="convUSD" placeholder="0.00" oninput="convertirDivisa('USD')">
+                </div>
+                
+                <div id="resultadoConv" class="ggo-terminal-box" style="display:none">
+                    <span id="txtResultado"></span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script>if ('serviceWorker' in navigator) { navigator.serviceWorker.register('./sw.js'); }</script>
+</body>
+</html>
